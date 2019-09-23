@@ -16,7 +16,7 @@ public class SortingMain {
     public static void main(String...args) {
         ArrayList<Integer> intList = new ArrayList<>();
         long duration = 0L;
-        for (int i = 0; i < 51; i++) {
+        for (int i = 0; i < 15001; i++) {
             int x = generateRandomInt();
             intList.add(x);
         }
@@ -48,7 +48,12 @@ public class SortingMain {
         System.out.println("duration: " + duration + "\n");
         sorting.setObjList(unsortedList); // set back to unsorted list to clear
 
-        // TODO: QUICK SORT
+        // QUICK SORT
+        System.out.println("original list: " + sorting.getObjList().toString());
+        duration = sorting.quickSort(0, intList.size() - 1);  // low is start index, high is size - 1
+        System.out.println("quick sorted list: " + sorting.getObjList().toString());
+        System.out.println("duration: " + duration + "\n");
+        sorting.setObjList(unsortedList); // set back to unsorted list to clear
 
         // TODO: HEAP SORT
 

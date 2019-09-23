@@ -7,7 +7,7 @@ public interface SortingAlgorithms<T> {
     long insertionSort();
     void selectionSort();
     long mergeSort(int low, int high);
-    void quickSort();
+    long quickSort(int lowIndex, int highIndex);
     void heapSort();
     void radixSort();
 
