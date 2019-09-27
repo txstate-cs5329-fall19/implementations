@@ -52,6 +52,29 @@ public class DivideAndConquer implements DivideAndConquerAlgorithms {
         }
     }
 
+    @Override
+    public int linearTimeMaxSubarray(int[] array) {
+        int sum = Integer.MIN_VALUE;
+        int lowM = 0;
+        int highM = 0;
+        int Mr = 0;
+        int lowR = 1;
+        for (int i = 0; i < array.length; i++) {
+            Mr += array[i];
+            if (Mr > sum) {
+                lowM = lowR;
+                highM = i;
+                sum = Mr;
+            }
+            if (Mr < 0) {
+                Mr = 0;
+                lowR = i + 1;
+            }
+        }
+        setCrossLeft(lowM);
+        setCrossRight(highM);
+        return sum;
+    }
 
 
     private void setCrossLeft(int subarrayMaxLeft) {
