@@ -1,5 +1,7 @@
 package algorithms;
 
+import datastructures.BasicHeap;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  *
  * @param <T>
  */
-public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorithms<T>, Runnable {
+public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorithms<T> {
 
     private ArrayList<T> objList;
 
@@ -107,6 +109,36 @@ public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorit
         return dur + Duration.between(start, finish).toMillis();
     }
 
+    long merge(int low, int mid, int high) {
+        Instant start = Instant.now();
+
+        int N = high - low + 1;
+        ArrayList<Integer> tmpList = new ArrayList<>(N); // init. capacity of N
+        for (int i = 0; i < N; i++) { tmpList.add(0); }
+
+        int left = low;
+        int right = mid + 1;
+        int bIdx = 0;
+
+        while (left <= mid && right <= high) { // the merging
+            int x = objList.get(left).compareTo(objList.get(right));
+            //System.out.println(bIdx + "|" + objList.get(left) + "|" + objList.get(right) + "|" + x);  // for DEBUG
+            tmpList.set(bIdx++, (Integer) (x <= 0 ? objList.get(left++) : objList.get(right++)));
+        }
+        while (left <= mid) {
+            tmpList.set(bIdx++, (Integer) objList.get(left++));
+        }
+        while (right <= high) {
+            tmpList.set(bIdx++, (Integer) objList.get(right++));
+        }
+        for (int k = 0; k < N; k++) {
+            objList.set(low + k, (T) tmpList.get(k));
+        }
+
+        Instant finish = Instant.now();
+        return Duration.between(start, finish).toMillis();
+    }
+
     /**
      *
      * @param lowIndex
@@ -143,47 +175,24 @@ public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorit
         return i + 1;
     }
 
-    long merge(int low, int mid, int high) {
+
+    /**
+     * Sort an ArrayList using the heap datastructure
+     * An in-place sorting algorithm with O(n log n) runtime
+     * @return the duration in milliseconds
+     */
+    @Override
+    public long heapSort() {
         Instant start = Instant.now();
 
-        int N = high - low + 1;
-        ArrayList<Integer> tmpList = new ArrayList<>(N); // init. capacity of N
-        for (int i = 0; i < N; i++) { tmpList.add(0); }
+        BasicHeap<T> heap = new BasicHeap<>(objList);
+        heap.buildMaxHeap();
+        System.out.println("heap: " + heap.toString());
 
-        int left = low;
-        int right = mid + 1;
-        int bIdx = 0;
-
-        while (left <= mid && right <= high) { // the merging
-            int x = objList.get(left).compareTo(objList.get(right));
-            //System.out.println(bIdx + "|" + objList.get(left) + "|" + objList.get(right) + "|" + x);  // for DEBUG
-            tmpList.set(bIdx++, (Integer) (x <= 0 ? objList.get(left++) : objList.get(right++)));
-        }
-        while (left <= mid) {
-            tmpList.set(bIdx++, (Integer) objList.get(left++));
-        }
-        while (right <= high) {
-            tmpList.set(bIdx++, (Integer) objList.get(right++));
-        }
-        for (int k = 0; k < N; k++) {
-            objList.set(low + k, (T) tmpList.get(k));
-        }
+        this.objList = heap.heapSort();
 
         Instant finish = Instant.now();
         return Duration.between(start, finish).toMillis();
-    }
-
-    @Override
-    public void run() {
-
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void heapSort() {
-
     }
 
     /**

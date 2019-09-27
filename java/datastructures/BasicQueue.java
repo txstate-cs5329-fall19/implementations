@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * First-In, First-Out data structure
  * @param <T>
  */
-public class BasicQueue<T> implements Queue<T> {
+public class BasicQueue<T extends Comparable<? super T>> implements Queue<T> {
     private T[] data;
     private int front;
     private int end;
