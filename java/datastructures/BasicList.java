@@ -1,6 +1,6 @@
 package datastructures;
 
-public class BasicList<T> implements List<T> {
+public class BasicList<T extends Comparable<? super T>> implements List<T> {
     private Node first;
     private Node last;
     private int nodeCount;
