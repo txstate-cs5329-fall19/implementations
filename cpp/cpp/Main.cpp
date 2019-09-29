@@ -21,6 +21,9 @@ int random(int min, int max);
 template<typename T, int N>
 void shuffleArray(T(&a)[N]);
 
+template<typename T, int N, int K>
+int* addBinaryInts(T(&a)[N], T(&b)[K]);
+
 
 int main() {
 	cout << "Hello from Boris!" << endl;
@@ -39,6 +42,14 @@ int main() {
 	s->insertionSort(array); // sort with insertion
 	printArray(array);
 
+	int A[4] = { 0,1,0,1 };
+	int B[4] = { 0,1,0,1 };
+	int* C = addBinaryInts(A, B);
+
+	for (int i = 4; i >= 0; i--) {
+		cout << C[i];
+	}
+	cout << endl;
 	return EXIT_SUCCESS;
 }
 
@@ -76,4 +87,26 @@ void shuffleArray(T(&a)[N]) {
 		a[i] = a[j];
 		a[j] = tmp;
 	}
+}
+
+template<typename T, int N, int K>
+int* addBinaryInts(T(&a)[N], T(&b)[K]) {
+	int carry = 0;
+	int C[5];
+	for (int i = N; i >= 0; i--) {
+		C[i+1] = (a[i] + b[i] + carry) % 2;
+		if (a[i] + a[i] + carry >= 2) {
+			carry = 1;
+		} else {
+			carry = 0;
+		}
+	}
+	C[0] = carry;
+
+	for (int i = N; i >= 0; i--) {
+		cout << C[i];
+	}
+	cout << endl;
+
+	return C;
 }
