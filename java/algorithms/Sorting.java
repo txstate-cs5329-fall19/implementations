@@ -86,8 +86,21 @@ public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorit
      *
      */
     @Override
-    public void selectionSort() {
-
+    public long selectionSort() {
+        Instant start = Instant.now();
+        for (int i = 0; i < objList.size()-1; i++) {
+            int min = i;
+            for (int j = i + 1; j < objList.size(); j++) {
+                if (objList.get(j).compareTo(objList.get(min)) < 0) {
+                    min = j;
+                }
+            }
+            T tmp = objList.get(i);
+            objList.set(i, objList.get(min));
+            objList.set(min, tmp);
+        }
+        Instant finish = Instant.now();
+        return Duration.between(start, finish).toMillis();
     }
 
     /**

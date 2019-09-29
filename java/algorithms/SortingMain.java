@@ -17,6 +17,7 @@ public class SortingMain {
      */
     public static void main(String...args) {
         ArrayList<Integer> intList = new ArrayList<>();
+        String sort = "";
         long duration;
         for (int i = 0; i < NUM_ITEMS; i++) {
             int x = generateRandomInt();
@@ -28,41 +29,40 @@ public class SortingMain {
         System.out.println("unsorted list to preserve: " + unsortedList.toString() + "\n");
 
         // BUBBLE SORT
+        sort = "bubble";
         System.out.println("original list: " + sorting.getObjList().toString());
         duration = sorting.bubbleSort();
-        System.out.println("bubble sorted list: " + sorting.getObjList().toString());
-        System.out.println("duration: " + duration + "\n");
-        sorting.setObjList(unsortedList);  // set back to unsorted list to clear
+        printSortResults(sort, duration, unsortedList, sorting);
 
         // INSERTION SORT
+        sort = "insertion";
         System.out.println("original list: " + sorting.getObjList().toString());
         duration = sorting.insertionSort();
-        System.out.println("insertion sorted list: " + sorting.getObjList().toString() + "\n");
-        System.out.println("duration: " + duration + "\n");
-        sorting.setObjList(unsortedList); // set back to unsorted list to clear
+        printSortResults(sort, duration, unsortedList, sorting);
 
-        // TODO: SELECTION SORT
+        // SELECTION SORT
+        sort = "selection";
+        System.out.println("original list: " + sorting.getObjList().toString());
+        duration = sorting.insertionSort();
+        printSortResults(sort, duration, unsortedList, sorting);
 
         // MERGE SORT
+        sort = "merge";
         System.out.println("original list: " + sorting.getObjList().toString());
         duration = sorting.mergeSort(0, intList.size()-1);  // low is start index, high is size - 1
-        System.out.println("merge sorted list: " + sorting.getObjList().toString());
-        System.out.println("duration: " + duration + "\n");
-        sorting.setObjList(unsortedList); // set back to unsorted list to clear
+        printSortResults(sort, duration, unsortedList, sorting);
 
         // QUICK SORT
+        sort = "quick";
         System.out.println("original list: " + sorting.getObjList().toString());
         duration = sorting.quickSort(0, intList.size() - 1);  // low is start index, high is size - 1
-        System.out.println("quick sorted list: " + sorting.getObjList().toString());
-        System.out.println("duration: " + duration + "\n");
-        sorting.setObjList(unsortedList); // set back to unsorted list to clear
+        printSortResults(sort, duration, unsortedList, sorting);
 
-        // TODO: HEAP SORT
+        // HEAP SORT
+        sort = "heap";
         System.out.println("original list: " + sorting.getObjList().toString());
         duration = sorting.heapSort();  // low is start index, high is size - 1
-        System.out.println("heap sorted list: " + sorting.getObjList().toString());
-        System.out.println("duration: " + duration + "\n");
-        sorting.setObjList(unsortedList); // set back to unsorted list to clear
+        printSortResults(sort, duration, unsortedList, sorting);
 
         // TODO: RADIX SORT
 
@@ -84,6 +84,12 @@ public class SortingMain {
         }
         System.out.println(b);
 
+    }
+
+    private static void printSortResults(String sort, long duration, ArrayList<Integer> unsortedList, Sorting<Integer> sorting) {
+        System.out.println(sort + " sorted list: " + sorting.getObjList().toString());
+        System.out.println("duration: " + duration + "\n");
+        sorting.setObjList(unsortedList);  // set back to unsorted list to clear
     }
 
     private static int generateRandomInt() {
