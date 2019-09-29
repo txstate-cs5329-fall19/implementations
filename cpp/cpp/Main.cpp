@@ -21,8 +21,8 @@ int random(int min, int max);
 template<typename T, int N>
 void shuffleArray(T(&a)[N]);
 
-template<typename T, int N, int K>
-int* addBinaryInts(T(&a)[N], T(&b)[K]);
+template<typename T, int N, int K, int M>
+void addBinaryInts(T(&a)[N], T(&b)[K], T(&c)[M]);
 
 
 int main() {
@@ -30,21 +30,34 @@ int main() {
 
 	int array[] = { 3, 9, 5, 7, 14, 1, 6, 2, 4, 8, 10, 11, 13, 12 };
 	Sorting* s = new Sorting();
-
+	cout << "initial array: ";
 	printArray(array);
+	
 	cout << "bubble sorted array: ";
 	s->bubbleSort(array); // sort with bubble
 	printArray(array);
+
 	shuffleArray(array);
 	cout << "shuffled array: ";
 	printArray(array);
+
 	cout << "insertion sorted array: ";
 	s->insertionSort(array); // sort with insertion
 	printArray(array);
 
+	shuffleArray(array);
+	cout << "shuffled array: ";
+	printArray(array);
+
+	cout << "selection sorted array: ";
+	s->selectionSort(array);
+	printArray(array);
+
+
 	int A[4] = { 0,1,0,1 };
 	int B[4] = { 0,1,0,1 };
-	int* C = addBinaryInts(A, B);
+	int C[5] = { 0 };
+	addBinaryInts(A, B, C);
 
 	for (int i = 4; i >= 0; i--) {
 		cout << C[i];
@@ -77,11 +90,11 @@ int random(int min, int max) //range : [min, max]
 }
 
 /**
-* Fisher–Yates algorithm
+* Durstenfeld implementation of Fisher–Yates shuffle
 */
 template<typename T, int N>
 void shuffleArray(T(&a)[N]) {
-	for (int i = 0; i < N; i++) {
+	for (int i = N-1; i >= 1; i--) {
 		int j = random(0, i);
 		int tmp = a[i];
 		a[i] = a[j];
@@ -89,24 +102,16 @@ void shuffleArray(T(&a)[N]) {
 	}
 }
 
-template<typename T, int N, int K>
-int* addBinaryInts(T(&a)[N], T(&b)[K]) {
+template<typename T, int N, int K, int M>
+void addBinaryInts(T(&a)[N], T(&b)[K], T(&c)[M]) {
 	int carry = 0;
-	int C[5];
 	for (int i = N; i >= 0; i--) {
-		C[i+1] = (a[i] + b[i] + carry) % 2;
+		c[i+1] = (a[i] + b[i] + carry) % 2;
 		if (a[i] + a[i] + carry >= 2) {
 			carry = 1;
 		} else {
 			carry = 0;
 		}
 	}
-	C[0] = carry;
-
-	for (int i = N; i >= 0; i--) {
-		cout << C[i];
-	}
-	cout << endl;
-
-	return C;
+	c[0] = carry;
 }
