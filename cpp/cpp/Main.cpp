@@ -53,6 +53,14 @@ int main() {
 	s->selectionSort(array);
 	printArray(array);
 
+	shuffleArray(array);
+	cout << "shuffled array: ";
+	printArray(array);
+
+	cout << "recursive insertion sorted array: ";
+	s->recursiveInsertionSort(array, 13);
+	printArray(array);
+
 
 	int A[4] = { 0,1,0,1 };
 	int B[4] = { 0,1,0,1 };
