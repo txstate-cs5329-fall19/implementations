@@ -40,6 +40,12 @@ public class SortingMain {
         duration = sorting.insertionSort();
         printSortResults(sort, duration, unsortedList, sorting);
 
+        // RECURSIVE INSERTION SORT
+        sort = "recursive insertion";
+        System.out.println("original list: " + sorting.getObjList().toString());
+        duration = sorting.recursiveInsertionSort(NUM_ITEMS - 1);
+        printSortResults(sort, duration, unsortedList, sorting);
+
         // SELECTION SORT
         sort = "selection";
         System.out.println("original list: " + sorting.getObjList().toString());
