@@ -52,5 +52,9 @@ public:
 			a[min] = tmp;
 		}
 	}
+
+	void recursiveInsertionSort(int array[], int n);
+private: 
+	void insert(int array[], int k);
 };
 
