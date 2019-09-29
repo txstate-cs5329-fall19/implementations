@@ -82,6 +82,27 @@ public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorit
         return Duration.between(start, finish).toMillis();
     }
 
+    @Override
+    public long recursiveInsertionSort(int n) {
+        Instant start = Instant.now();
+        if (n > 1) {
+            recursiveInsertionSort(n - 1);
+            insert(n);
+        }
+        Instant finish = Instant.now();
+        return Duration.between(start, finish).toMillis();
+    }
+
+    private void insert(int k) {
+        T key = objList.get(k);
+        int index = k -1;
+        while (index >= 0 && objList.get(index).compareTo(key) > 0) {
+            objList.set(index + 1, objList.get(index));
+            index--;
+        }
+        objList.set(index + 1, key);
+    }
+
     /**
      *
      */
