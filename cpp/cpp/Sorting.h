@@ -53,8 +53,12 @@ public:
 		}
 	}
 
+	void mergeSort(int arr[], int l, int r); 
 	void recursiveInsertionSort(int array[], int n);
 private: 
 	void insert(int array[], int k);
+	void merge(int arr[], int l, int m, int r);
+
+	
 };
 

@@ -18,15 +18,25 @@ void printArray(T(&a)[N]);
 
 int random(int min, int max);
 
-template<typename T, int N>
+template <typename T, int N>
 void shuffleArray(T(&a)[N]);
 
-template<typename T, int N, int K, int M>
+template <typename T, int N, int K, int M>
 void addBinaryInts(T(&a)[N], T(&b)[K], T(&c)[M]);
 
+template <typename T, int N>
+int binarySearch(T(&a)[N], int low, int high, int x);
+
+template <typename T, int N>
+bool sumSearchBinary(T(&a)[N], int x);
+
+template <typename T, int N>
+bool sumSearch(T(&a)[N]);
 
 int main() {
 	cout << "Hello from Boris!" << endl;
+
+	static int NUM_ELEMENTS = 13; // N - 1
 
 	int array[] = { 3, 9, 5, 7, 14, 1, 6, 2, 4, 8, 10, 11, 13, 12 };
 	Sorting* s = new Sorting();
@@ -61,6 +71,23 @@ int main() {
 	s->recursiveInsertionSort(array, 13);
 	printArray(array);
 
+	shuffleArray(array);
+	cout << "shuffled array: ";
+	printArray(array);
+
+	cout << "merge sorted array: ";
+	s->mergeSort(array, 0, NUM_ELEMENTS);
+	printArray(array);
+
+
+	int idx = binarySearch(array, 0, 13, 11);
+	cout << "search for 11, should be at index 10: " << idx << endl;
+
+	bool sumExists = sumSearchBinary(array, 3);
+	cout << "do 2 nums exist that give sum of 3? " << sumExists << endl;
+
+	sumExists = sumSearchBinary(array, 90);
+	cout << "do 2 nums exist that give sum of 90? " << sumExists << endl;
 
 	int A[4] = { 0,1,0,1 };
 	int B[4] = { 0,1,0,1 };
@@ -122,4 +149,43 @@ void addBinaryInts(T(&a)[N], T(&b)[K], T(&c)[M]) {
 		}
 	}
 	c[0] = carry;
+}
+
+template <typename T, int N>
+bool sumSearchBinary(T(&a)[N], int x) {
+	Sorting* s = new Sorting();
+	s->mergeSort(a, 0, 13);
+	for (int i = 0; i < N; i++) {
+		if (binarySearch(a, 0, 13, x - a[i]) != NULL) {
+			return true;
+		}
+	}
+	return false;
+}
+
+template <typename T, int N>
+bool sumSearch(T(&a)[N]) {
+
+}
+
+template <typename T, int N> 
+int binarySearch(T(&a)[N], int low, int high, int x) {
+
+	if (low > high) 
+		return NULL;
+
+	int mid = (low + high)/2;//low + (high - low) / 2;
+
+	// If the element is present at the middle 
+	if (a[mid] == x)
+		return mid;
+
+	// If element is smaller than mid, then 
+	// it can only be present in left subarray 
+	if (a[mid] > x)
+		return binarySearch(a, low, mid - 1, x);
+
+	// Else the element can only be present 
+	// in right subarray 
+	return binarySearch(a, mid + 1, high, x);
 }
