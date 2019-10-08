@@ -3,12 +3,17 @@ package datastructures;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class BasicHeap<T extends Comparable<? super T>> implements Heap<T> {
+/**
+ *
+ * @param <T>
+ */
+public class TernaryHeap<T extends Comparable<? super T>> implements Heap<T> {
 
+    private static final int NUM_LEAFS = 3;
     private ArrayList<T> heap;
     private int size;
 
-    public BasicHeap(ArrayList<T> list) {
+    public TernaryHeap(ArrayList<T> list) {
         this.heap = list;
         this.size = list.size();
     }
@@ -36,11 +41,16 @@ public class BasicHeap<T extends Comparable<? super T>> implements Heap<T> {
     @Override
     public void maxHeapify(int index) {
         int l = left(index);
+        int m = middle(index);
         int r = right(index);
         int largest = index;
 
         if (l < getSize() && heap.get(l).compareTo(heap.get(largest)) > 0) {
             largest = l;
+        }
+
+        if (m < getSize() && heap.get(m).compareTo(heap.get(largest)) > 0) {
+            largest = m;
         }
 
         if (r < getSize() && heap.get(r).compareTo(heap.get(largest)) > 0) {
@@ -55,39 +65,46 @@ public class BasicHeap<T extends Comparable<? super T>> implements Heap<T> {
         }
     }
 
-    public boolean isBinaryHeap(int i) {
-        if (i > (this.heap.size() - 3)/2)
+    @Override
+    public void buildMaxHeap() {
+        for (int i = getSize() / NUM_LEAFS; i >= 0; i--) {
+            maxHeapify(i);
+        }
+    }
+
+    public boolean isTernaryHeap(int i) {
+        int n = this.heap.size() - 1;
+        if (i > (n - NUM_LEAFS)/NUM_LEAFS)
             return true;
 
-        if (this.heap.get(i).compareTo(this.heap.get(left(i))) >= 0 && this.heap.get(i).compareTo(this.heap.get(right(i))) >= 0
-            && isBinaryHeap(left(i))
-            && isBinaryHeap(right(i)))
+        if (this.heap.get(i).compareTo(this.heap.get(left(i))) >= 0
+                && this.heap.get(i).compareTo(this.heap.get(middle(i))) >= 0
+                && this.heap.get(i).compareTo(this.heap.get(right(i))) >= 0
+                && isTernaryHeap(left(i))
+                && isTernaryHeap(middle(i))
+                && isTernaryHeap(right(i)))
             return true;
-
 
         return false;
     }
 
     @Override
-    public void buildMaxHeap() {
-        for (int i = getSize() / 2; i >= 0; i--) {
-            maxHeapify(i);
-        }
+    public int left(int i) {
+        return NUM_LEAFS * i + 1;
     }
 
-    @Override
-    public int left(int i) {
-        return (i * 2) + 1;
+    public int middle(int i) {
+        return NUM_LEAFS * i + 2;
     }
 
     @Override
     public int right(int i) {
-        return (i * 2) + 2;
+        return NUM_LEAFS * i + NUM_LEAFS;
     }
 
     @Override
     public int parent(int i) {
-        return i / 2;
+        return (i - 1) / NUM_LEAFS;
     }
 
     @Override
@@ -105,28 +122,15 @@ public class BasicHeap<T extends Comparable<? super T>> implements Heap<T> {
         return Arrays.toString(heap.toArray());
     }
 
-    public ArrayList<T> heapSort() {
-
-        for (int i = getSize() - 1; i > 0; i--) {
-            T tmp = heap.get(0);
-            heap.set(0, heap.get(i));
-            heap.set(i, tmp);
-            setSize(getSize() - 1);
-            maxHeapify(0);
-        }
-
-        return heap;
-    }
-
     public static void main(String...args) {
         Integer[] array = {5, 7, 3, 9, 4, 1, 11, 15, 7, 8, 2, 10, 14};
         ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(array));
-//        arrayList.add(5);arrayList.add(7);arrayList.add(3);arrayList.add(9);arrayList.add(4);
-        BasicHeap<Integer> heap = new BasicHeap<>(arrayList);
+
+        TernaryHeap<Integer> heap = new TernaryHeap<>(arrayList);
         System.out.println(heap.toString());
-        System.out.println(heap.isBinaryHeap(0));
+        System.out.println(heap.isTernaryHeap(0));
         heap.buildMaxHeap();
         System.out.println(heap.toString());
-        System.out.println(heap.isBinaryHeap(0));
+        System.out.println(heap.isTernaryHeap(0));
     }
-} // end class
+}
