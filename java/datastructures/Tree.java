@@ -1,4 +1,4 @@
 package datastructures;
 
-public interface Tree {
+public interface Tree<T> {
 }
