@@ -53,6 +53,33 @@ public:
 		}
 	}
 
+	template <typename T, int N>
+	void quickSortTypeOne(T(&a)[N], int low, int high) {
+		if (low < high) {
+			int pivot = partitionTypeOne(a, low, high);
+			quickSortTypeOne(a, low, pivot - 1);
+			quickSortTypeOne(a, pivot + 1, high);
+		}
+	}
+
+	template <typename T, int N>
+	int partitionTypeOne(T(&a)[N], int low, int high) {
+		int pivot = a[high];
+		int i = low - 1;
+		for (int j = low; j < high ; j++) {
+			if (a[j] < pivot) {
+				i++;
+				T tmp = a[i];
+				a[i] = a[j];
+				a[j] = tmp;
+			}
+		}
+		T tm = a[i + 1];
+		a[i + 1] = a[high];
+		a[high] = tm;
+		return i + 1;
+	}
+
 	void mergeSort(int arr[], int l, int r); 
 	void recursiveInsertionSort(int array[], int n);
 private: 

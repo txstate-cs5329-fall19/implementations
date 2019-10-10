@@ -39,6 +39,7 @@ int main() {
 	static int NUM_ELEMENTS = 13; // N - 1
 
 	int array[] = { 3, 9, 5, 7, 14, 1, 6, 2, 4, 8, 10, 11, 13, 12 };
+	int array_two[] = { 3, 9, 5, 7, 14, 1, 6, 2, 4, 8, 10, 11, 13, 12, INT_MAX };
 	Sorting* s = new Sorting();
 	cout << "initial array: ";
 	printArray(array);
@@ -79,6 +80,21 @@ int main() {
 	s->mergeSort(array, 0, NUM_ELEMENTS);
 	printArray(array);
 
+	shuffleArray(array);
+	cout << "shuffled array: ";
+	printArray(array);
+
+	cout << "quick sorted array (type 1): ";
+	s->quickSortTypeOne(array, 0, NUM_ELEMENTS);
+	printArray(array);
+
+	shuffleArray(array);
+	cout << "shuffled array: ";
+	printArray(array);
+
+	cout << "quick sorted array (type 2): ";
+	s->quickSortTypeTwo(array_two, 0, 13 );
+	printArray(array_two);
 
 	int idx = binarySearch(array, 0, 13, 11);
 	cout << "search for 11, should be at index 10: " << idx << endl;
@@ -98,6 +114,7 @@ int main() {
 		cout << C[i];
 	}
 	cout << endl;
+
 	return EXIT_SUCCESS;
 }
 
